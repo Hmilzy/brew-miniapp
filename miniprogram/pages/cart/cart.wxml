@@ -1,0 +1,36 @@
+<view class="page">
+  <view class="empty" wx:if="{{cartItems.length === 0}}">
+    <text class="empty-text">购物车是空的</text>
+    <text class="empty-sub">去点一杯咖啡吧</text>
+  </view>
+
+  <view class="cart-list" wx:if="{{cartItems.length > 0}}">
+    <view class="cart-header">
+      <text class="cart-title">已选商品</text>
+      <text class="cart-clear" bindtap="onClear">清空</text>
+    </view>
+
+    <view class="cart-item" wx:for="{{cartItems}}" wx:key="key">
+      <view class="item-info">
+        <text class="item-name">{{item.name}}</text>
+        <text class="item-spec">{{item.specs.size}} / {{item.specs.temp}} / {{item.specs.sugar}}</text>
+      </view>
+      <view class="item-right">
+        <text class="item-price">¥{{item.price}}</text>
+        <view class="quantity-control">
+          <view class="qty-btn" data-key="{{item.key}}" bindtap="onDecrease">−</view>
+          <text class="qty-num">{{item.quantity}}</text>
+          <view class="qty-btn" data-key="{{item.key}}" bindtap="onIncrease">+</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar" wx:if="{{cartItems.length > 0}}">
+    <view class="total-section">
+      <text class="total-label">合计</text>
+      <text class="total-price">¥{{total}}</text>
+    </view>
+    <view class="submit-btn" bindtap="onSubmitOrder">下单</view>
+  </view>
+</view>

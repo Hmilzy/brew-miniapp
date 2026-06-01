@@ -1,0 +1,25 @@
+<view class="page">
+  <view class="empty" wx:if="{{orders.length === 0}}">
+    <text class="empty-text">暂无订单</text>
+    <text class="empty-sub">快去点一杯咖啡吧</text>
+  </view>
+
+  <view class="order-list" wx:if="{{orders.length > 0}}">
+    <view class="order-card" wx:for="{{orders}}" wx:key="id">
+      <view class="order-header">
+        <text class="order-id">{{item.id}}</text>
+        <text class="order-status">{{item.status}}</text>
+      </view>
+      <view class="order-time">{{item.time}}</view>
+      <view class="order-items">
+        <view class="order-item" wx:for="{{item.items}}" wx:for-item="prod" wx:key="key">
+          <text class="oi-name">{{prod.name}} x{{prod.quantity}}</text>
+          <text class="oi-spec">{{prod.specs.size}}/{{prod.specs.temp}}/{{prod.specs.sugar}}</text>
+        </view>
+      </view>
+      <view class="order-footer">
+        <text class="order-total">合计 ¥{{item.total}}</text>
+      </view>
+    </view>
+  </view>
+</view>

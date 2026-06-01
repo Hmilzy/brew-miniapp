@@ -1,0 +1,96 @@
+<view class="page">
+  <!-- 主体：左侧分类 + 右侧商品 -->
+  <view class="main">
+    <scroll-view class="sidebar" scroll-y>
+      <view
+        class="sidebar-item {{currentCategory === item ? 'active' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="*this"
+        data-category="{{item}}"
+        bindtap="onCategoryTap"
+      >{{item}}</view>
+    </scroll-view>
+
+    <scroll-view
+      class="product-list"
+      scroll-y
+      scroll-into-view="{{scrollToView}}"
+      scroll-with-animation
+      bindscroll="onProductScroll"
+    >
+      <view
+        class="category-section"
+        wx:for="{{groupedProducts}}"
+        wx:key="category"
+        id="section-{{index}}"
+      >
+        <view class="section-title">{{item.category}}</view>
+        <view class="product-card" wx:for="{{item.items}}" wx:for-item="prod" wx:key="id" data-id="{{prod.id}}" bindtap="onProductTap">
+          <view class="product-img"></view>
+          <view class="product-info">
+            <text class="product-name">{{prod.name}}</text>
+            <text class="product-desc">{{prod.description}}</text>
+            <view class="product-bottom">
+              <text class="product-price">¥{{prod.price}}</text>
+              <view class="quick-add" catchtap="onQuickAdd" data-id="{{prod.id}}">+</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部购物车浮窗 -->
+  <view class="cart-bar" wx:if="{{cartCount > 0}}" bindtap="goToCart">
+    <view class="cart-left">
+      <view class="cart-badge">{{cartCount}}</view>
+      <text class="cart-label">购物车</text>
+    </view>
+    <view class="cart-right">
+      <text class="cart-total">¥{{cartTotal}}</text>
+      <view class="cart-btn">去结算</view>
+    </view>
+  </view>
+
+  <!-- 商品详情弹窗 -->
+  <view class="detail-mask" wx:if="{{showDetail}}" bindtap="onMaskTap"></view>
+  <view class="detail-popup" wx:if="{{showDetail}}">
+    <view class="detail-header">
+      <view class="detail-img"></view>
+      <view class="detail-info">
+        <text class="detail-name">{{currentProduct.name}}</text>
+        <text class="detail-desc">{{currentProduct.description}}</text>
+        <text class="detail-price">¥{{currentProduct.price}}</text>
+      </view>
+      <view class="detail-close" bindtap="onCloseDetail">✕</view>
+    </view>
+
+    <view class="spec-section">
+      <view class="spec-title">杯型</view>
+      <view class="spec-options">
+        <view class="spec-opt {{specSize === '中杯' ? 'selected' : ''}}" data-value="中杯" bindtap="onSizeChange">中杯</view>
+        <view class="spec-opt {{specSize === '大杯' ? 'selected' : ''}}" data-value="大杯" bindtap="onSizeChange">大杯 +4</view>
+      </view>
+    </view>
+
+    <view class="spec-section">
+      <view class="spec-title">温度</view>
+      <view class="spec-options">
+        <view class="spec-opt {{specTemp === '冰' ? 'selected' : ''}}" data-value="冰" bindtap="onTempChange">冰</view>
+        <view class="spec-opt {{specTemp === '热' ? 'selected' : ''}}" data-value="热" bindtap="onTempChange">热</view>
+      </view>
+    </view>
+
+    <view class="spec-section">
+      <view class="spec-title">糖度</view>
+      <view class="spec-options">
+        <view class="spec-opt {{specSugar === '无糖' ? 'selected' : ''}}" data-value="无糖" bindtap="onSugarChange">无糖</view>
+        <view class="spec-opt {{specSugar === '少糖' ? 'selected' : ''}}" data-value="少糖" bindtap="onSugarChange">少糖</view>
+        <view class="spec-opt {{specSugar === '正常' ? 'selected' : ''}}" data-value="正常" bindtap="onSugarChange">正常</view>
+        <view class="spec-opt {{specSugar === '多糖' ? 'selected' : ''}}" data-value="多糖" bindtap="onSugarChange">多糖</view>
+      </view>
+    </view>
+
+    <view class="detail-add-btn" bindtap="onAddToCart">加入购物车</view>
+  </view>
+</view>
