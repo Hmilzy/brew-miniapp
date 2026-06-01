@@ -1,0 +1,66 @@
+<view class="page">
+  <!-- 地址列表 -->
+  <view class="address-list" wx:if="{{addresses.length > 0}}">
+    <view
+      class="address-item {{item.isDefault ? 'default' : ''}}"
+      wx:for="{{addresses}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onAddressTap"
+    >
+      <view class="address-main">
+        <view class="address-user">
+          <text class="address-name">{{item.name}}</text>
+          <text class="address-phone">{{item.phone}}</text>
+          <view class="address-tag" wx:if="{{item.tag}}">{{item.tag}}</view>
+        </view>
+        <text class="address-text">{{item.address}}</text>
+      </view>
+      <view class="address-check" wx:if="{{item.isDefault}}">✓</view>
+    </view>
+  </view>
+
+  <view class="empty-hint" wx:if="{{addresses.length === 0}}">
+    <text>暂无收货地址</text>
+  </view>
+
+  <!-- 底部新增按钮 -->
+  <view class="add-btn-wrap">
+    <view class="add-btn" bindtap="onAddNew">+ 新增收货地址</view>
+  </view>
+
+  <!-- 新增地址表单弹窗 -->
+  <view class="form-mask" wx:if="{{showAddForm}}" bindtap="onFormClose"></view>
+  <view class="form-popup" wx:if="{{showAddForm}}">
+    <view class="form-header">
+      <text class="form-title">新增收货地址</text>
+      <view class="form-close" bindtap="onFormClose">✕</view>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">收货人</text>
+      <input class="form-input" placeholder="请输入姓名" value="{{form.name}}" bindinput="onInputName" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">手机号</text>
+      <input class="form-input" placeholder="请输入手机号" type="number" maxlength="11" value="{{form.phone}}" bindinput="onInputPhone" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">详细地址</text>
+      <input class="form-input" placeholder="请输入详细地址" value="{{form.address}}" bindinput="onInputAddress" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">标签</text>
+      <view class="tag-options">
+        <view class="tag-opt {{form.tag === '家' ? 'active' : ''}}" data-tag="家" bindtap="onTagTap">家</view>
+        <view class="tag-opt {{form.tag === '公司' ? 'active' : ''}}" data-tag="公司" bindtap="onTagTap">公司</view>
+        <view class="tag-opt {{form.tag === '学校' ? 'active' : ''}}" data-tag="学校" bindtap="onTagTap">学校</view>
+      </view>
+    </view>
+
+    <view class="form-submit" bindtap="onSubmitAddress">保存地址</view>
+  </view>
+</view>

@@ -1,5 +1,18 @@
 const CART_KEY = 'brew_cart';
 const ORDERS_KEY = 'brew_orders';
+const ADDRESSES_KEY = 'brew_addresses';
+
+const storesData = [
+  { id: 1, name: 'BREW 国贸旗舰店', address: '北京市朝阳区国贸商城B1层', distance: '368m', lat: 39.909, lng: 116.461 },
+  { id: 2, name: 'BREW 三里屯店', address: '北京市朝阳区三里屯太古里南区', distance: '1.2km', lat: 39.933, lng: 116.455 },
+  { id: 3, name: 'BREW 望京店', address: '北京市朝阳区望京SOHO T1', distance: '3.5km', lat: 39.997, lng: 116.480 },
+  { id: 4, name: 'BREW 中关村店', address: '北京市海淀区中关村大街1号', distance: '8.7km', lat: 39.981, lng: 116.311 },
+];
+
+const defaultAddresses = [
+  { id: 1, name: '张三', phone: '138****8888', address: '朝阳区建国路93号万达广场1号楼2单元301', tag: '公司', isDefault: true },
+  { id: 2, name: '张三', phone: '138****8888', address: '朝阳区望京西园三区218号楼1层', tag: '家', isDefault: false },
+];
 
 const menuData = [
   {
@@ -194,6 +207,43 @@ function formatTime(date) {
   return `${y}-${m}-${d} ${h}:${min}`;
 }
 
+function getStores() {
+  return storesData;
+}
+
+function getStoreById(id) {
+  return storesData.find(s => s.id === id);
+}
+
+function getNearestStore() {
+  return storesData[0];
+}
+
+function getAddresses() {
+  try {
+    const data = wx.getStorageSync(ADDRESSES_KEY);
+    if (data) return JSON.parse(data);
+  } catch (e) {}
+  wx.setStorageSync(ADDRESSES_KEY, JSON.stringify(defaultAddresses));
+  return defaultAddresses;
+}
+
+function addAddress(addr) {
+  const addresses = getAddresses();
+  addr.id = Date.now();
+  addr.isDefault = addresses.length === 0;
+  addresses.push(addr);
+  wx.setStorageSync(ADDRESSES_KEY, JSON.stringify(addresses));
+  return addresses;
+}
+
+function setDefaultAddress(id) {
+  const addresses = getAddresses();
+  addresses.forEach(a => { a.isDefault = a.id === id; });
+  wx.setStorageSync(ADDRESSES_KEY, JSON.stringify(addresses));
+  return addresses;
+}
+
 module.exports = {
   getMenu,
   getCategories,
@@ -206,5 +256,11 @@ module.exports = {
   clearCart,
   getCartTotal,
   getOrders,
-  createOrder
+  createOrder,
+  getStores,
+  getStoreById,
+  getNearestStore,
+  getAddresses,
+  addAddress,
+  setDefaultAddress
 };

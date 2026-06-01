@@ -12,7 +12,20 @@ Page({
     currentProduct: null,
     specSize: '中杯',
     specTemp: '冰',
-    specSugar: '正常'
+    specSugar: '正常',
+    // 门店 & 模式
+    currentStore: null,
+    stores: [],
+    orderMode: 'pickup',
+    showStorePopup: false,
+    // Banner
+    banners: [
+      { id: 1, image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=400&fit=crop&auto=format&q=80', title: '晨间仪式感' },
+      { id: 2, image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&h=400&fit=crop&auto=format&q=80', title: '手冲的艺术' },
+      { id: 3, image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&h=400&fit=crop&auto=format&q=80', title: '每一杯都是灵感' },
+      { id: 4, image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=400&fit=crop&auto=format&q=80', title: '精品咖啡豆' },
+    ],
+    currentBanner: 0
   },
 
   sectionOffsets: [],
@@ -24,7 +37,10 @@ Page({
       category: cat,
       items: store.getMenuByCategory(cat)
     }));
-    this.setData({ categories, groupedProducts });
+    const stores = store.getStores();
+    const currentStore = store.getNearestStore();
+    this.setData({ categories, groupedProducts, stores, currentStore });
+    this.requestLocation();
   },
 
   onShow() {
@@ -133,6 +149,43 @@ Page({
   },
 
   goToCart() {
-    wx.switchTab({ url: '/pages/cart/cart' });
+    wx.navigateTo({ url: '/pages/cart/cart' });
+  },
+
+  // 门店与模式
+  requestLocation() {
+    wx.getLocation({
+      type: 'wgs84',
+      success: () => {
+        this.setData({ currentStore: store.getNearestStore() });
+      },
+      fail: () => {}
+    });
+  },
+
+  onStoreTap() {
+    this.setData({ showStorePopup: true });
+  },
+
+  onStorePopupClose() {
+    this.setData({ showStorePopup: false });
+  },
+
+  onStoreSelect(e) {
+    const id = e.currentTarget.dataset.id;
+    const selected = store.getStoreById(id);
+    this.setData({ currentStore: selected, showStorePopup: false });
+  },
+
+  onModeTap(e) {
+    const mode = e.currentTarget.dataset.mode;
+    if (mode === 'delivery') {
+      wx.navigateTo({ url: '/pages/address/address' });
+    }
+    this.setData({ orderMode: mode });
+  },
+
+  onBannerChange(e) {
+    this.setData({ currentBanner: e.detail.current });
   }
 });

@@ -1,0 +1,89 @@
+<view class="home-page">
+  <!-- 背景图 -->
+  <view class="hero-bg"></view>
+
+  <!-- 可滑动内容区 -->
+  <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <!-- 上半区品牌视觉留白 -->
+    <view class="hero-spacer"></view>
+
+    <!-- 服务选择卡片 -->
+    <view class="service-card">
+      <view class="service-btn" bindtap="goToOrder">
+        <view class="service-icon">🏪</view>
+        <text class="service-title">门店自取</text>
+        <text class="service-sub">到店取餐</text>
+      </view>
+      <view class="service-divider-v"></view>
+      <view class="service-btn" bindtap="onDeliveryTap">
+        <view class="service-icon">🛵</view>
+        <text class="service-title">外送上门</text>
+        <text class="service-sub">30分钟送达</text>
+      </view>
+    </view>
+
+    <!-- 活动卡片区 -->
+    <view class="activity-card">
+      <view class="activity-item" bindtap="onActivityTap" data-type="recharge">
+        <view class="activity-icon">💰</view>
+        <text class="activity-title">充值福利</text>
+      </view>
+      <view class="activity-item" bindtap="onActivityTap" data-type="event">
+        <view class="activity-icon">🎉</view>
+        <text class="activity-title">活动提醒</text>
+      </view>
+      <view class="activity-item" bindtap="onActivityTap" data-type="community">
+        <view class="activity-icon">👥</view>
+        <text class="activity-title">加入社群</text>
+      </view>
+    </view>
+
+    <!-- 上滑提示 -->
+    <view class="scroll-hint">
+      <view class="hint-arrow">∧</view>
+      <text class="hint-text">上滑探索更多精彩</text>
+    </view>
+
+    <!-- 探索区域 -->
+    <view class="explore-section">
+      <view class="explore-item">
+        <view class="explore-img img-1"></view>
+        <text class="explore-title">新品上市 · 夏日特调</text>
+        <text class="explore-desc">清爽果咖系列，限时尝鲜价 ¥19.9 起</text>
+      </view>
+      <view class="explore-item">
+        <view class="explore-img img-2"></view>
+        <text class="explore-title">咖啡豆故事</text>
+        <text class="explore-desc">来自云南保山的精品阿拉比卡，手冲体验</text>
+      </view>
+      <view class="explore-item">
+        <view class="explore-img img-3"></view>
+        <text class="explore-title">BREW 周边上新</text>
+        <text class="explore-desc">联名马克杯、手冲壶、随行杯限量发售</text>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 悬浮 Tab 栏 -->
+  <view class="float-tab">
+    <view class="tab-item active" bindtap="onTabTap" data-tab="home">
+      <text class="tab-icon">🏠</text>
+      <text class="tab-label">首页</text>
+    </view>
+    <view class="tab-item" bindtap="onTabTap" data-tab="merch">
+      <text class="tab-icon">🛍️</text>
+      <text class="tab-label">品牌周边</text>
+    </view>
+    <view class="tab-item" bindtap="onTabTap" data-tab="points">
+      <text class="tab-icon">🎁</text>
+      <text class="tab-label">积分兑换</text>
+    </view>
+    <view class="tab-item" bindtap="onTabTap" data-tab="profile">
+      <text class="tab-icon">👤</text>
+      <text class="tab-label">个人中心</text>
+    </view>
+  </view>
+</view>

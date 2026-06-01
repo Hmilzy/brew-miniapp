@@ -1,4 +1,47 @@
 <view class="page">
+  <!-- 顶部：门店选择 + 自提/外送切换 -->
+  <view class="top-bar">
+    <view class="store-info" bindtap="onStoreTap">
+      <view class="store-icon">
+        <view class="location-dot"></view>
+      </view>
+      <view class="store-detail">
+        <view class="store-name-row">
+          <text class="store-name">{{currentStore.name}}</text>
+          <text class="store-arrow">▾</text>
+        </view>
+        <text class="store-meta">{{currentStore.distance}} · {{currentStore.address}}</text>
+      </view>
+    </view>
+    <view class="mode-tabs">
+      <view class="mode-tab {{orderMode === 'pickup' ? 'active' : ''}}" bindtap="onModeTap" data-mode="pickup">自提</view>
+      <view class="mode-tab {{orderMode === 'delivery' ? 'active' : ''}}" bindtap="onModeTap" data-mode="delivery">外送</view>
+    </view>
+  </view>
+
+  <!-- Banner 轮播图 -->
+  <view class="banner-wrap">
+    <swiper
+      class="banner-swiper"
+      autoplay
+      circular
+      interval="3000"
+      duration="600"
+      previous-margin="24rpx"
+      next-margin="24rpx"
+      bindchange="onBannerChange"
+    >
+      <swiper-item wx:for="{{banners}}" wx:key="id">
+        <view class="banner-card {{currentBanner === index ? 'active' : ''}}">
+          <image class="banner-img" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="banner-overlay">
+            <text class="banner-title">{{item.title}}</text>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
   <!-- 主体：左侧分类 + 右侧商品 -->
   <view class="main">
     <scroll-view class="sidebar" scroll-y>
@@ -37,18 +80,23 @@
           </view>
         </view>
       </view>
+      <!-- 底部占位，让最后一个商品可以滑到购物车上方 -->
+      <view class="list-bottom-spacer"></view>
     </scroll-view>
   </view>
 
   <!-- 底部购物车浮窗 -->
-  <view class="cart-bar" wx:if="{{cartCount > 0}}" bindtap="goToCart">
+  <view class="cart-bar" bindtap="goToCart">
     <view class="cart-left">
       <view class="cart-badge">{{cartCount}}</view>
       <text class="cart-label">购物车</text>
     </view>
-    <view class="cart-right">
+    <view class="cart-right" wx:if="{{cartCount > 0}}">
       <text class="cart-total">¥{{cartTotal}}</text>
       <view class="cart-btn">去结算</view>
+    </view>
+    <view class="cart-right" wx:else>
+      <text class="cart-empty-hint">去选购</text>
     </view>
   </view>
 
@@ -92,5 +140,29 @@
     </view>
 
     <view class="detail-add-btn" bindtap="onAddToCart">加入购物车</view>
+  </view>
+
+  <!-- 门店选择弹窗 -->
+  <view class="store-mask" wx:if="{{showStorePopup}}" bindtap="onStorePopupClose"></view>
+  <view class="store-popup {{showStorePopup ? 'show' : ''}}">
+    <view class="store-popup-header">
+      <text class="store-popup-title">选择门店</text>
+      <view class="store-popup-close" bindtap="onStorePopupClose">✕</view>
+    </view>
+    <scroll-view class="store-list" scroll-y>
+      <view
+        class="store-list-item {{currentStore.id === item.id ? 'selected' : ''}}"
+        wx:for="{{stores}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onStoreSelect"
+      >
+        <view class="store-list-info">
+          <text class="store-list-name">{{item.name}}</text>
+          <text class="store-list-addr">{{item.address}}</text>
+        </view>
+        <text class="store-list-dist">{{item.distance}}</text>
+      </view>
+    </scroll-view>
   </view>
 </view>
