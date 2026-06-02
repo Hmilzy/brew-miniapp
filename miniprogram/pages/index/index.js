@@ -25,7 +25,10 @@ Page({
       { id: 3, image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&h=400&fit=crop&auto=format&q=80', title: '每一杯都是灵感' },
       { id: 4, image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=400&fit=crop&auto=format&q=80', title: '精品咖啡豆' },
     ],
-    currentBanner: 0
+    currentBanner: 0,
+    // 搜索
+    searchKeyword: '',
+    searchResults: []
   },
 
   sectionOffsets: [],
@@ -106,6 +109,7 @@ Page({
   },
 
   openSpecPopup(id) {
+    wx.hideKeyboard();
     const product = store.getProductById(id);
     this.setData({
       showDetail: true,
@@ -146,6 +150,22 @@ Page({
     this.refreshCart();
     this.setData({ showDetail: false });
     wx.showToast({ title: '已加入购物车', icon: 'success' });
+  },
+
+  onSearchInput(e) {
+    const keyword = e.detail.value.trim();
+    if (!keyword) {
+      this.setData({ searchKeyword: '', searchResults: [] });
+      return;
+    }
+    const kw = keyword.toLowerCase();
+    const allProducts = store.getMenu();
+    const results = allProducts.filter(p => p.name.toLowerCase().includes(kw));
+    this.setData({ searchKeyword: keyword, searchResults: results });
+  },
+
+  onSearchClear() {
+    this.setData({ searchKeyword: '', searchResults: [] });
   },
 
   goToCart() {

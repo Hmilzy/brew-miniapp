@@ -42,9 +42,25 @@
     </swiper>
   </view>
 
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <view class="search-icon"></view>
+      <input
+        class="search-input"
+        placeholder="搜索饮品"
+        placeholder-class="search-placeholder"
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+      />
+      <view class="search-clear" wx:if="{{searchKeyword}}" bindtap="onSearchClear">✕</view>
+    </view>
+  </view>
+
   <!-- 主体：左侧分类 + 右侧商品 -->
   <view class="main">
-    <scroll-view class="sidebar" scroll-y>
+    <scroll-view class="sidebar" scroll-y wx:if="{{!searchKeyword}}">
       <view
         class="sidebar-item {{currentCategory === item ? 'active' : ''}}"
         wx:for="{{categories}}"
@@ -55,11 +71,12 @@
     </scroll-view>
 
     <scroll-view
-      class="product-list"
+      class="product-list {{searchKeyword ? 'full-width' : ''}}"
       scroll-y
       scroll-into-view="{{scrollToView}}"
       scroll-with-animation
       bindscroll="onProductScroll"
+      wx:if="{{!searchKeyword}}"
     >
       <view
         class="category-section"
@@ -81,6 +98,26 @@
         </view>
       </view>
       <!-- 底部占位，让最后一个商品可以滑到购物车上方 -->
+      <view class="list-bottom-spacer"></view>
+    </scroll-view>
+
+    <!-- 搜索结果列表 -->
+    <scroll-view class="product-list full-width" scroll-y wx:if="{{searchKeyword}}">
+      <view class="search-result-hint" wx:if="{{searchResults.length}}">找到 {{searchResults.length}} 个商品</view>
+      <view class="product-card" wx:for="{{searchResults}}" wx:key="id" data-id="{{item.id}}" bindtap="onProductTap">
+        <view class="product-img"></view>
+        <view class="product-info">
+          <text class="product-name">{{item.name}}</text>
+          <text class="product-desc">{{item.description}}</text>
+          <view class="product-bottom">
+            <text class="product-price">¥{{item.price}}</text>
+            <view class="quick-add" catchtap="onQuickAdd" data-id="{{item.id}}">+</view>
+          </view>
+        </view>
+      </view>
+      <view class="search-empty" wx:if="{{!searchResults.length}}">
+        <text class="search-empty-text">没有找到相关商品</text>
+      </view>
       <view class="list-bottom-spacer"></view>
     </scroll-view>
   </view>

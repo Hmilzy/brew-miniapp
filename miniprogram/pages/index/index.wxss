@@ -165,6 +165,86 @@
   overflow: hidden;
 }
 
+/* 搜索栏 */
+.search-bar {
+  padding: 16rpx 24rpx;
+  background: #fff;
+}
+
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 32rpx;
+  padding: 16rpx 24rpx;
+}
+
+.search-icon {
+  width: 28rpx;
+  height: 28rpx;
+  border: 3rpx solid #999;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.search-icon::after {
+  content: '';
+  position: absolute;
+  bottom: -8rpx;
+  right: -8rpx;
+  width: 12rpx;
+  height: 3rpx;
+  background: #999;
+  transform: rotate(45deg);
+}
+
+.search-input {
+  flex: 1;
+  margin-left: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+  height: 36rpx;
+}
+
+.search-placeholder {
+  color: #bbb;
+  font-size: 28rpx;
+}
+
+.search-clear {
+  width: 36rpx;
+  height: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.product-list.full-width {
+  width: 100%;
+}
+
+.search-result-hint {
+  font-size: 24rpx;
+  color: #999;
+  padding: 16rpx 0;
+}
+
+.search-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.search-empty-text {
+  font-size: 28rpx;
+  color: #bbb;
+}
+
 /* 左侧分类 */
 .sidebar {
   width: 176rpx;

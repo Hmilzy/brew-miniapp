@@ -1,6 +1,6 @@
 <view class="home-page">
   <!-- 背景图 -->
-  <view class="hero-bg"></view>
+  <image class="hero-bg" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80" mode="aspectFill"></image>
 
   <!-- 可滑动内容区 -->
   <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
@@ -10,13 +10,17 @@
     <!-- 服务选择卡片 -->
     <view class="service-card">
       <view class="service-btn" bindtap="goToOrder">
-        <view class="service-icon">🏪</view>
+        <view class="service-icon">
+          <view class="icon-store"></view>
+        </view>
         <text class="service-title">门店自取</text>
         <text class="service-sub">到店取餐</text>
       </view>
       <view class="service-divider-v"></view>
       <view class="service-btn" bindtap="onDeliveryTap">
-        <view class="service-icon">🛵</view>
+        <view class="service-icon">
+          <view class="icon-delivery"></view>
+        </view>
         <text class="service-title">外送上门</text>
         <text class="service-sub">30分钟送达</text>
       </view>
@@ -25,39 +29,45 @@
     <!-- 活动卡片区 -->
     <view class="activity-card">
       <view class="activity-item" bindtap="onActivityTap" data-type="recharge">
-        <view class="activity-icon">💰</view>
+        <view class="activity-icon">
+          <view class="icon-wallet"></view>
+        </view>
         <text class="activity-title">充值福利</text>
       </view>
       <view class="activity-item" bindtap="onActivityTap" data-type="event">
-        <view class="activity-icon">🎉</view>
+        <view class="activity-icon">
+          <view class="icon-bell"></view>
+        </view>
         <text class="activity-title">活动提醒</text>
       </view>
       <view class="activity-item" bindtap="onActivityTap" data-type="community">
-        <view class="activity-icon">👥</view>
+        <view class="activity-icon">
+          <view class="icon-group"></view>
+        </view>
         <text class="activity-title">加入社群</text>
       </view>
     </view>
 
     <!-- 上滑提示 -->
     <view class="scroll-hint">
-      <view class="hint-arrow">∧</view>
+      <view class="hint-arrow"></view>
       <text class="hint-text">上滑探索更多精彩</text>
     </view>
 
     <!-- 探索区域 -->
     <view class="explore-section">
       <view class="explore-item">
-        <view class="explore-img img-1"></view>
+        <image class="explore-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" mode="aspectFill"></image>
         <text class="explore-title">新品上市 · 夏日特调</text>
         <text class="explore-desc">清爽果咖系列，限时尝鲜价 ¥19.9 起</text>
       </view>
       <view class="explore-item">
-        <view class="explore-img img-2"></view>
+        <image class="explore-img" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&q=80" mode="aspectFill"></image>
         <text class="explore-title">咖啡豆故事</text>
         <text class="explore-desc">来自云南保山的精品阿拉比卡，手冲体验</text>
       </view>
       <view class="explore-item">
-        <view class="explore-img img-3"></view>
+        <image class="explore-img" src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=600&q=80" mode="aspectFill"></image>
         <text class="explore-title">BREW 周边上新</text>
         <text class="explore-desc">联名马克杯、手冲壶、随行杯限量发售</text>
       </view>
@@ -70,19 +80,27 @@
   <!-- 悬浮 Tab 栏 -->
   <view class="float-tab">
     <view class="tab-item active" bindtap="onTabTap" data-tab="home">
-      <text class="tab-icon">🏠</text>
+      <view class="tab-icon-wrap">
+        <view class="tab-icon-home"></view>
+      </view>
       <text class="tab-label">首页</text>
     </view>
     <view class="tab-item" bindtap="onTabTap" data-tab="merch">
-      <text class="tab-icon">🛍️</text>
+      <view class="tab-icon-wrap">
+        <view class="tab-icon-bag"></view>
+      </view>
       <text class="tab-label">品牌周边</text>
     </view>
     <view class="tab-item" bindtap="onTabTap" data-tab="points">
-      <text class="tab-icon">🎁</text>
+      <view class="tab-icon-wrap">
+        <view class="tab-icon-gift"></view>
+      </view>
       <text class="tab-label">积分兑换</text>
     </view>
     <view class="tab-item" bindtap="onTabTap" data-tab="profile">
-      <text class="tab-icon">👤</text>
+      <view class="tab-icon-wrap">
+        <view class="tab-icon-user"></view>
+      </view>
       <text class="tab-label">个人中心</text>
     </view>
   </view>
