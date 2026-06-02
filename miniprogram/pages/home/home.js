@@ -19,6 +19,18 @@ Page({
   onTabTap(e) {
     const tab = e.currentTarget.dataset.tab;
     if (tab === 'home') return;
+    if (tab === 'merch') {
+      wx.navigateTo({ url: '/pages/merch/merch' });
+      return;
+    }
+    if (tab === 'points') {
+      wx.navigateTo({ url: '/pages/points/points' });
+      return;
+    }
+    if (tab === 'profile') {
+      wx.navigateTo({ url: '/pages/profile/profile' });
+      return;
+    }
     wx.showToast({ title: '功能开发中', icon: 'none' });
   }
 });

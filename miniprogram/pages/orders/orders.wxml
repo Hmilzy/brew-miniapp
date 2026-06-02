@@ -14,7 +14,8 @@
       <view class="order-items">
         <view class="order-item" wx:for="{{item.items}}" wx:for-item="prod" wx:key="key">
           <text class="oi-name">{{prod.name}} x{{prod.quantity}}</text>
-          <text class="oi-spec">{{prod.specs.size}}/{{prod.specs.temp}}/{{prod.specs.sugar}}</text>
+          <text class="oi-spec" wx:if="{{prod.type !== 'merch'}}">{{prod.specs.size}}/{{prod.specs.temp}}/{{prod.specs.sugar}}</text>
+          <text class="oi-spec" wx:if="{{prod.type === 'merch'}}">{{prod.specs.spec}}</text>
         </view>
       </view>
       <view class="order-footer">

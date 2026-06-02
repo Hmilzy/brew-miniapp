@@ -54,12 +54,13 @@ Page({
       wx.showToast({ title: '购物车为空', icon: 'none' });
       return;
     }
-    const order = store.createOrder();
-    if (order) {
-      wx.showToast({ title: '下单成功', icon: 'success' });
+    const orders = store.createOrder();
+    if (orders && orders.length > 0) {
+      const msg = orders.length > 1 ? '已拆分为' + orders.length + '个订单' : '下单成功';
+      wx.showToast({ title: msg, icon: 'success' });
       this.refreshData();
       setTimeout(() => {
-        wx.switchTab({ url: '/pages/orders/orders' });
+        wx.navigateTo({ url: '/pages/orders/orders' });
       }, 1500);
     }
   }

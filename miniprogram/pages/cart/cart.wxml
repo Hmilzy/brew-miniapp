@@ -13,7 +13,8 @@
     <view class="cart-item" wx:for="{{cartItems}}" wx:key="key">
       <view class="item-info">
         <text class="item-name">{{item.name}}</text>
-        <text class="item-spec">{{item.specs.size}} / {{item.specs.temp}} / {{item.specs.sugar}}</text>
+        <text class="item-spec" wx:if="{{item.type !== 'merch'}}">{{item.specs.size}} / {{item.specs.temp}} / {{item.specs.sugar}}</text>
+        <text class="item-spec" wx:if="{{item.type === 'merch'}}">{{item.specs.spec}}</text>
       </view>
       <view class="item-right">
         <text class="item-price">¥{{item.price}}</text>

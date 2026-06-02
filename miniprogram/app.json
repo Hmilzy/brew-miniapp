@@ -2,9 +2,12 @@
   "pages": [
     "pages/home/home",
     "pages/index/index",
+    "pages/merch/merch",
+    "pages/points/points",
     "pages/cart/cart",
     "pages/orders/orders",
-    "pages/address/address"
+    "pages/address/address",
+    "pages/profile/profile"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

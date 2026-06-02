@@ -1,0 +1,94 @@
+<view class="points-page">
+  <!-- 积分头部 -->
+  <view class="points-header">
+    <view class="points-label">我的积分</view>
+    <view class="points-value">{{points}}</view>
+  </view>
+
+  <!-- 分类 tab -->
+  <view class="category-bar">
+    <view
+      class="category-item {{currentCategory === item ? 'active' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="*this"
+      bindtap="onCategoryTap"
+      data-cat="{{item}}"
+    >{{item}}</view>
+  </view>
+
+  <!-- 商品列表 -->
+  <scroll-view class="goods-scroll" scroll-y enhanced show-scrollbar="{{false}}" scroll-into-view="{{scrollTarget}}">
+    <view class="goods-list">
+      <view class="goods-card {{item.stock <= 0 ? 'disabled' : ''}}" wx:for="{{goodsList}}" wx:key="id" bindtap="{{item.stock > 0 ? 'onGoodsTap' : ''}}" data-id="{{item.id}}">
+        <view class="goods-icon-wrap">
+          <view class="goods-icon goods-icon-{{item.category === '优惠券' ? 'coupon' : item.category === '免费饮品' ? 'drink' : 'gift'}}"></view>
+        </view>
+        <view class="goods-info">
+          <text class="goods-name">{{item.name}}</text>
+          <text class="goods-stock">{{item.stock > 0 ? '剩余 ' + item.stock + ' 件' : '已兑完'}}</text>
+        </view>
+        <view class="goods-points">
+          <text class="goods-points-num">{{item.points}}</text>
+          <text class="goods-points-label">积分</text>
+        </view>
+        <view class="sold-out-tag" wx:if="{{item.stock <= 0}}">已兑完</view>
+      </view>
+    </view>
+
+    <!-- 兑换记录入口 -->
+    <view id="history-section" class="history-toggle" bindtap="onToggleHistory">
+      <text>{{showHistory ? '收起兑换记录' : '查看兑换记录'}}</text>
+      <view class="toggle-arrow {{showHistory ? 'up' : ''}}"></view>
+    </view>
+
+    <!-- 兑换记录列表 -->
+    <view class="history-section" wx:if="{{showHistory}}">
+      <view wx:if="{{historyList.length === 0}}" class="history-empty">暂无兑换记录</view>
+      <view class="history-item" wx:for="{{historyList}}" wx:key="id">
+        <view class="history-left">
+          <text class="history-name">{{item.name}}</text>
+          <text class="history-time">{{item.time}}</text>
+        </view>
+        <text class="history-points">-{{item.points}} 积分</text>
+      </view>
+    </view>
+
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 确认弹窗 -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="onCancelExchange">
+    <view class="modal-content" catchtap="">
+      <!-- 确认状态 -->
+      <block wx:if="{{modalState === 'confirm'}}">
+        <view class="modal-title">确认兑换</view>
+        <view class="modal-body">
+          <text class="modal-goods-name">{{selectedGoods.name}}</text>
+          <text class="modal-goods-desc">{{selectedGoods.description}}</text>
+          <view class="modal-cost">
+            <text>所需积分：</text>
+            <text class="modal-cost-num">{{selectedGoods.points}}</text>
+          </view>
+          <view class="modal-balance">
+            <text>当前余额：</text>
+            <text>{{points}} 积分</text>
+          </view>
+        </view>
+        <view class="modal-footer">
+          <view class="modal-btn cancel" bindtap="onCancelExchange">取消</view>
+          <view class="modal-btn confirm {{points < selectedGoods.points ? 'disabled' : ''}}" bindtap="{{points >= selectedGoods.points ? 'onConfirmExchange' : ''}}">{{points < selectedGoods.points ? '积分不足' : '确认兑换'}}</view>
+        </view>
+      </block>
+      <!-- 成功状态 -->
+      <block wx:if="{{modalState === 'success'}}">
+        <view class="success-state">
+          <view class="success-icon">
+            <view class="success-check"></view>
+          </view>
+          <text class="success-title">兑换成功</text>
+          <text class="success-balance">剩余积分：{{exchangeBalance}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

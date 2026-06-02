@@ -1,0 +1,91 @@
+<view class="merch-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">
+      <view class="back-arrow"></view>
+    </view>
+    <text class="nav-title">品牌周边</text>
+    <view class="nav-cart" bindtap="goToCart">
+      <view class="cart-icon"></view>
+      <text class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</text>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <view class="category-bar">
+    <view
+      class="category-item {{currentCategory === item ? 'active' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="*this"
+      wx:for-item="item"
+      bindtap="onCategoryTap"
+      data-category="{{item}}"
+    >
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 商品网格 -->
+  <scroll-view class="product-grid-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="product-grid">
+      <view
+        class="product-card"
+        wx:for="{{products}}"
+        wx:key="id"
+        bindtap="onProductTap"
+        data-id="{{item.id}}"
+      >
+        <view class="card-img-wrap">
+          <image class="card-img" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="card-tag tag-limited" wx:if="{{item.tag === '限量'}}">限量</view>
+          <view class="card-tag tag-new" wx:if="{{item.tag === '新品'}}">新品</view>
+        </view>
+        <view class="card-info">
+          <text class="card-name">{{item.name}}</text>
+          <text class="card-price">¥{{item.price}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="grid-bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 商品详情弹窗 -->
+  <view class="detail-mask" wx:if="{{showDetail}}" bindtap="onMaskTap"></view>
+  <view class="detail-popup {{showDetail ? 'show' : ''}}">
+    <view class="detail-header">
+      <image class="detail-img" src="{{currentProduct.image}}" mode="aspectFill"></image>
+      <view class="detail-close" bindtap="onCloseDetail">
+        <view class="close-x"></view>
+      </view>
+    </view>
+    <view class="detail-body">
+      <view class="detail-title-row">
+        <text class="detail-name">{{currentProduct.name}}</text>
+        <view class="detail-tag tag-limited" wx:if="{{currentProduct.tag === '限量'}}">限量</view>
+        <view class="detail-tag tag-new" wx:if="{{currentProduct.tag === '新品'}}">新品</view>
+      </view>
+      <text class="detail-desc">{{currentProduct.description}}</text>
+      <text class="detail-price">¥{{currentProduct.price}}</text>
+
+      <!-- 规格选择 -->
+      <view class="spec-section">
+        <text class="spec-label">{{currentProduct.specs.type === 'color' ? '颜色' : '容量'}}</text>
+        <view class="spec-options">
+          <view
+            class="spec-item {{selectedSpec === opt ? 'active' : ''}}"
+            wx:for="{{currentProduct.specs.options}}"
+            wx:key="*this"
+            wx:for-item="opt"
+            bindtap="onSpecTap"
+            data-value="{{opt}}"
+          >
+            <text>{{opt}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="detail-footer">
+      <view class="add-cart-btn" bindtap="onAddToCart">加入购物车</view>
+    </view>
+  </view>
+</view>
